@@ -3,21 +3,16 @@ import { TUserRequest, TUserResponse } from "../interfaces/users.interfaces"
 import createUsersService from "../services/users/createUsers.service"
 import listUsersService from "../services/users/listUsers.service"
 import updateUsersService from "../services/users/updateUsers.service"
+import { userSchemaRequest } from "../schemas/users.schemas"
 
 const createUsersController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  try {
-    const userData: TUserRequest = req.body
-    const newUser: TUserResponse = await createUsersService(userData)
-    return res.status(201).json(newUser)
-  } catch (error: any) {
-    console.log(error)
-    return res.status(400).json({
-      message: error.message,
-    })
-  }
+  const userData: TUserRequest = userSchemaRequest.parse(req.body)
+  console.log(userData)
+  const newUser: TUserResponse = await createUsersService(userData)
+  return res.status(201).json(newUser)
 }
 
 const listUsersController = async (
