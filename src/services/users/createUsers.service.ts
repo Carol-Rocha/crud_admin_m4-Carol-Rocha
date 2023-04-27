@@ -2,18 +2,19 @@ import { QueryResult } from "pg"
 import { TUserRequest, TUserResponse } from "../../interfaces/users.interfaces"
 import format from "pg-format"
 import { client } from "../../database"
+import { userSchemaResponse } from "../../schemas/users.schemas"
 
 const createUsersService = async (
   userData: TUserRequest
 ): Promise<TUserResponse> => {
   const queryString: string = format(
     `
-         INSERT INTO 
+        INSERT INTO 
                 users(%I)
         VALUES
                 (%L)
         RETURNING
-                "id", "name", "email", "admin", "active";
+                  *;
         `,
     Object.keys(userData),
     Object.values(userData)
@@ -23,7 +24,9 @@ const createUsersService = async (
     queryString
   )
 
-  return queryResult.rows[0]
+  const newUser = userSchemaResponse.parse(queryResult.rows[0])
+
+  return newUser
 }
 
 export default createUsersService

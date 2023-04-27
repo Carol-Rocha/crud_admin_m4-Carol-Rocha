@@ -1,16 +1,18 @@
 import { Request, Response } from "express"
-import { TUserRequest, TUserResponse } from "../interfaces/users.interfaces"
+import {
+  TUpdateUserRequest,
+  TUserRequest,
+  TUserResponse,
+} from "../interfaces/users.interfaces"
 import createUsersService from "../services/users/createUsers.service"
 import listUsersService from "../services/users/listUsers.service"
 import updateUsersService from "../services/users/updateUsers.service"
-import { userSchemaRequest } from "../schemas/users.schemas"
 
 const createUsersController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const userData: TUserRequest = userSchemaRequest.parse(req.body)
-  console.log(userData)
+  const userData: TUserRequest = req.body
   const newUser: TUserResponse = await createUsersService(userData)
   return res.status(201).json(newUser)
 }
@@ -37,8 +39,8 @@ const updateUsersController = async (
   res: Response
 ): Promise<Response> => {
   const userId: number = Number(req.params.id)
-  const userData: Partial<TUserRequest> = req.body
-
+  const userData: TUpdateUserRequest = req.body
+  console.log(userData)
   const updatedUser = await updateUsersService(userId, userData)
 
   return res.json(updatedUser)
