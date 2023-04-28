@@ -9,6 +9,7 @@ import { AppError } from "../../error"
 import * as bcrypt from "bcryptjs"
 import { IUser } from "../../interfaces/users.interfaces"
 import jwt from "jsonwebtoken"
+import "dotenv/config"
 
 const createLoginService = async (
   payload: TLoginRequest
@@ -41,9 +42,9 @@ const createLoginService = async (
 
   const token: string = jwt.sign(
     {
-      email: user.email,
+      admin: user.admin,
     },
-    "secret key",
+    process.env.SECRET_KEY!,
     {
       expiresIn: "1d",
       subject: user.id.toString(),

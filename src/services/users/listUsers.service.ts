@@ -1,6 +1,9 @@
 import { QueryResult } from "pg"
+import jwt from "jsonwebtoken"
 import { TUserResponse } from "../../interfaces/users.interfaces"
 import { client } from "../../database"
+import { AppError } from "../../error"
+import "dotenv/config"
 
 const listUsersService = async (): Promise<Array<TUserResponse>> => {
   const querystring: string = `
