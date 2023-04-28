@@ -3,10 +3,13 @@ import { TUserRequest, TUserResponse } from "../../interfaces/users.interfaces"
 import format from "pg-format"
 import { client } from "../../database"
 import { userSchemaResponse } from "../../schemas/users.schemas"
+import * as bcrypt from "bcryptjs"
 
 const createUsersService = async (
   userData: TUserRequest
 ): Promise<TUserResponse> => {
+  userData.password = await bcrypt.hash(userData.password, 10)
+
   const queryString: string = format(
     `
         INSERT INTO 
