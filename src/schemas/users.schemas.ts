@@ -12,6 +12,14 @@ const userSchema = z.object({
 const userSchemaRequest = userSchema.omit({ id: true, active: true })
 const userSchemaResponse = userSchema.omit({ password: true })
 
+const updateStatusActiveSchema = userSchema.pick({ active: true }).required()
+
 const updatedUserSchema = userSchemaRequest.omit({ admin: true }).partial()
 
-export { userSchema, userSchemaRequest, userSchemaResponse, updatedUserSchema }
+export {
+  userSchema,
+  userSchemaRequest,
+  userSchemaResponse,
+  updatedUserSchema,
+  updateStatusActiveSchema,
+}

@@ -7,6 +7,8 @@ const loginController = async (
   res: Response
 ): Promise<Response> => {
   const userData: TLoginRequest = req.body
+  res.locals.email = req.body.email
+  console.log(res.locals.email)
 
   const token: TLoginResponse = await createLoginService(userData)
   return res.status(201).json(token)

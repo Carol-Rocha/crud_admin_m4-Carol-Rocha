@@ -7,6 +7,7 @@ import {
 import createUsersService from "../services/users/createUsers.service"
 import listUsersService from "../services/users/listUsers.service"
 import updateUsersService from "../services/users/updateUsers.service"
+import getProfileService from "../services/users/getProfile.service"
 
 const createUsersController = async (
   req: Request,
@@ -26,14 +27,16 @@ const listUsersController = async (
   return res.json(users)
 }
 
-// const checkIdExistsController = async (
-//   req: Request,
-//   res: Response
-// ): Promise<Response> => {
-//   const user = await checkIdExistsService(res.locals.user)
+const getProfileController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const email: string = res.locals.email
+  console.log(email)
+  const profile = await getProfileService(email)
 
-//   return res.json(user)
-// }
+  return res.json(profile)
+}
 
 const updateUsersController = async (
   req: Request,
@@ -47,4 +50,16 @@ const updateUsersController = async (
   return res.json(updatedUser)
 }
 
-export { createUsersController, listUsersController, updateUsersController }
+const deleteUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  return res.json("delete")
+}
+
+export {
+  createUsersController,
+  listUsersController,
+  updateUsersController,
+  getProfileController,
+}

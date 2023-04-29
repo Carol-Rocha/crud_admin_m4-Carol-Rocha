@@ -1,6 +1,7 @@
 import { Router } from "express"
 import {
   createUsersController,
+  getProfileController,
   listUsersController,
   updateUsersController,
 } from "../controllers/users.controllers"
@@ -32,5 +33,26 @@ userRoutes.patch(
   checkIdExistsMiddleware,
   updateUsersController
 )
+
+userRoutes.get(
+  "/profile",
+  checkTokenIsValidMiddleware,
+  checkEmailExistsMiddleware,
+  getProfileController
+)
+
+// userRoutes.delete(
+//   "/:id",
+//   checkTokenIsValidMiddleware,
+//   checkIdExistsMiddleware
+
+// )
+// userRoutes.put(
+//   "/:id/recover",
+//   checkTokenIsValidMiddleware,
+//   checkIdExistsMiddleware,
+//   checkUserIsAdminMiddleware
+// updateActiveStatusService
+// )
 
 export default userRoutes

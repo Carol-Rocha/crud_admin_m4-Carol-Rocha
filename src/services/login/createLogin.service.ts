@@ -40,6 +40,10 @@ const createLoginService = async (
     throw new AppError("Wrong email/password", 401)
   }
 
+  if (queryResult.rows[0].active === false) {
+    throw new AppError("Wrong email/password", 401)
+  }
+
   const token: string = jwt.sign(
     {
       admin: user.admin,
